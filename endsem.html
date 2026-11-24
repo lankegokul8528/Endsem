@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page with Local Storage</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; justify-content: center; margin-top: 80px; }
+    .box { width: 300px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+    input, button { width: 100%; padding: 8px; margin: 8px 0; box-sizing: border-box; }
+    #message { font-weight: bold; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h3>User Login</h3>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Enter Email" required>
+      <input type="password" id="password" placeholder="Enter Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p id="message"></p>
+  </div>
+
+  <script>
+    // 1. Pre-save a sample user in localStorage (if not already present)
+    if (!localStorage.getItem("user")) {
+      const sampleUser = { email: "gokul@klu.in", password: "12345" };
+      localStorage.setItem("user", JSON.stringify(sampleUser));
+    }
+
+    // 2. Handle Login Form Submission
+    const loginForm = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent page refresh
+
+      const enteredEmail = document.getElementById("email").value;
+      const enteredPassword = document.getElementById("password").value;
+
+      // Retrieve and parse stored user data
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+
+      // Validate credentials
+      if (storedUser && enteredEmail === storedUser.email && enteredPassword === storedUser.password) {
+        message.textContent = "Login Successful";
+        message.style.color = "green";
+      } else {
+        message.textContent = "Invalid email or password";
+        message.style.color = "red";
+      }
+    });
+  </script>
+
+</body>
+</html>
